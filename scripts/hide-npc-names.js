@@ -257,7 +257,7 @@ export class HideNPCNames {
         const actor = ChatMessage.getSpeakerActor(speaker);
         if (!actor || actor.hasPlayerOwner) return;
 
-        const replacementInfo = HideNPCNames.getReplacementInfo(actor);
+        const replacementInfo = HideNPCNames.getReplacementInfo(actor, name);
 
         // If we are the GM or the actor's owner, simply apply the icon to the name and return
         if (game.user.isGM || actor.isOwner) {
