@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.3
+
+* Fixed an error when the token does not have an actor
+
 ## 1.1.2
 
 * Reworked the GM token name drawing so that it doesn't actually change the name for the GM
