@@ -2,7 +2,7 @@
 
 ## 1.1.4
 
-Adjusted the positioning of the button on the actor directory to support long names
+* Adjusted the positioning of the button on the actor directory to support long names
 
 ## 1.1.3
 
