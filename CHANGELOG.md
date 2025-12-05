@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.5
+
+* We now default to the chat message alias when showing the name on a chat card. This should keep it more in line with default Foundry behaviour
+
 ## 1.1.4
 
 * Adjusted the positioning of the button on the actor directory to support long names
