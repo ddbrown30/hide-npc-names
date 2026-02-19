@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.1.6
+
+* Reworked the replacement name to properly support tokens with manually changed names. As a consequence, prefixes (i.e. Prepend Random Adjective) will no longer be visible when the name is hidden. Suffixes (i.e. Append Incrementing Number) still work.
+
 ## 1.1.5
 
 * We now default to the chat message alias when showing the name on a chat card. This should keep it more in line with default Foundry behaviour
