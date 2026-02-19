@@ -391,8 +391,7 @@ export class HideNPCNames {
         const replacementNameOverride = Utils.getModuleFlag(baseActor, FLAGS.replacementNameOverride);
         let replacementName = replacementNameOverride ?? replacementSetting;
         let tokenName = actor.token?.__name ?? actor.token?.name;
-        let protoName = actor.prototypeToken?.__name ?? actor.prototypeToken?.name;
-        replacementName = tokenName ? tokenName.replace(protoName, replacementName) : replacementName;
+        replacementName = tokenName ? tokenName.replace(/^(.*?)(\s\(\d+\))?$/, `${replacementName}$2`) : replacementName;
 
         return replacementName;
     }
