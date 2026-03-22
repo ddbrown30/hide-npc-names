@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.0
+
+* Exposed getReplacementInfo to the API
+
 ## 1.1.6
 
 * Reworked the replacement name to properly support tokens with manually changed names. As a consequence, prefixes (i.e. Prepend Random Adjective) will no longer be visible when the name is hidden. Suffixes (i.e. Append Incrementing Number) still work.
