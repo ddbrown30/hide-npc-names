@@ -13,6 +13,8 @@ export class HooksManager {
         Hooks.on("init", () => {
             game.hnn = game.hnn ?? {};
 
+            game.hnn.getReplacementInfo = HideNPCNames.getReplacementInfo;
+
             //Override the name property on combatants and tokens to use a getter and setter
             //We do this so that the names are still correctly hidden without having to manually update every place that uses them
             Object.defineProperty(CONFIG.Combatant.documentClass.prototype, "__name", { value: "", writable: true });
