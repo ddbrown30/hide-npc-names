@@ -164,6 +164,10 @@ export class HideNPCNames {
         //For each replacement, find the matching element and replace
         const actorListElement = html.querySelectorAll("li");
         for (const el of actorListElement) {
+            if (el.querySelector(".hide-icon")) {
+                continue;
+            }
+
             const entryId = el.dataset.entryId;
             if (entryId) {
                 const actor = game.actors.get(entryId);
