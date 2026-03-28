@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.1
+
+* Fixed a bug where the icon was being added multiple times on the actors tab
+
 ## 1.2.0
 
 * Exposed getReplacementInfo to the API
