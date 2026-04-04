@@ -24,7 +24,7 @@ export class HooksManager {
                     return this.token?.actor ? HideNPCNames.getReplacementInfo(this.token.actor, this.__name).displayName : this.__name;
                 },
                 set: function (name) {
-                    this.__name = name;
+                    this.__name = !this.__name && this.token?.actor?.name ? this.token.actor.name : name;
                 }
             });
 
