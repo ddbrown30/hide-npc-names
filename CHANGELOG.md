@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.2
+
+* Fixed an issue with hidden combatants
+
 ## 1.2.1
 
 * Fixed a bug where the icon was being added multiple times on the actors tab
