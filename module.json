@@ -4,7 +4,7 @@
   "description": "<p>A module that hides NPC names from the players.</p>",
   "compatibility": {
     "minimum": "13",
-    "verified": "13.351"
+    "verified": "14.359"
   },
   "version": "0.0.0",
   "languages": [
