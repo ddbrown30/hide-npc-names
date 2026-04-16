@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.2.2
+## 1.2.3
 
 * Added a hacky name check to prevent an issue with the dnd5e DataModel
 
