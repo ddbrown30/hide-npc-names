@@ -2,6 +2,10 @@
 
 ## 1.2.2
 
+* Added a hacky name check to prevent an issue with the dnd5e DataModel
+
+## 1.2.2
+
 * Fixed an issue with hidden combatants
 
 ## 1.2.1
