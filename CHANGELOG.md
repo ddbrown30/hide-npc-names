@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.2.4
+
+* Fixed header button missing in AppV2
+
 ## 1.2.3
 
 * Added a hacky name check to prevent an issue with the dnd5e DataModel
