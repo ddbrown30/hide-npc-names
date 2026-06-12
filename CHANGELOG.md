@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.0
+
+* Added system specific replacement of other actors within cards
+
 ## 1.2.4
 
 * Fixed header button missing in AppV2
