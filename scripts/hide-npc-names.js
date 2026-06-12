@@ -254,6 +254,31 @@ export class HideNPCNames {
      * @param {*} data
      */
     static async onRenderChatMessageHTML(message, html, data) {
+        //System specific handling of actors on cards
+        if (game.system.id === "swade") {
+            let targetIds = [];
+            if (message.flags["betterrolls-swade2"]) {
+                targetIds = message.flags["betterrolls-swade2"].br_data.target_ids;
+            } else if (message.flags.swade) {
+                targetIds = message.flags.swade.targets.map(t => t.uuid);
+            }
+
+            for (let targetId of targetIds) {
+                const targetActor = await Utils.getActorFromUuid(targetId);
+                if (targetActor && !targetActor.hasPlayerOwner) {
+                    HideNPCNames.updateChatMessage(html, targetActor, targetActor.name);
+                }
+            }
+        } else if (game.system.id === "CoC7") {
+            const actorElements = html.querySelectorAll("[data-actor-uuid]");
+            for (const actorElement of actorElements) {
+                const actor = await Utils.getActorFromUuid(actorElement.dataset.actorUuid);
+                if (actor && !actor.hasPlayerOwner) {
+                    HideNPCNames.updateChatMessage(html, actor, actor.name);
+                }
+            }
+        }
+
         const speaker = message.speaker;
         const name = data?.alias ?? speaker?.alias;
         if (!name || !speaker) return;
@@ -261,6 +286,16 @@ export class HideNPCNames {
         const actor = ChatMessage.getSpeakerActor(speaker);
         if (!actor || actor.hasPlayerOwner) return;
 
+        HideNPCNames.updateChatMessage(html, actor, name);
+    }
+
+    /**
+     * Update the chat message html with the replacement info
+     * @param {*} html
+     * @param {*} actor
+     * @param {*} name
+     */
+    static updateChatMessage(html, actor, name) {
         const replacementInfo = HideNPCNames.getReplacementInfo(actor, name);
 
         // If we are the GM or the actor's owner, simply apply the icon to the name and return
@@ -301,6 +336,9 @@ export class HideNPCNames {
         .forEach(({childNodes: [...nodes]}) => nodes
         .filter(({nodeType}) => nodeType === document.TEXT_NODE)
         .forEach((textNode) => textNode.textContent = textNode.textContent.replace(pattern, nameToUse)));
+
+        // Replace in data-tooltip attributes
+        html.querySelectorAll("[data-tooltip]").forEach((el) => { el.dataset.tooltip = el.dataset.tooltip.replace(pattern, nameToUse); });
     }
 
     /**

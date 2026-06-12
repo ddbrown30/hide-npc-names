@@ -142,4 +142,14 @@ export class Utils {
     static getBaseActor(actor) {
         return actor.isToken ? actor.token.baseActor : actor;
     }
+
+    /**
+     * Gets an actor from a UUID
+     * @param {String} uuid
+     * @return {Actor} actor
+     */
+    static async getActorFromUuid(uuid) {
+        const actor = await fromUuid(uuid);
+        return actor instanceof Actor ? actor : actor instanceof foundry.canvas.placeables.Token || actor instanceof TokenDocument ? actor.actor : null;
+    }
 }
