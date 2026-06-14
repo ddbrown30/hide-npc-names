@@ -259,7 +259,7 @@ export class HideNPCNames {
             let targetIds = [];
             if (message.flags["betterrolls-swade2"]) {
                 targetIds = message.flags["betterrolls-swade2"].br_data.target_ids;
-            } else if (message.flags.swade) {
+            } else if (message.flags.swade?.targets) {
                 targetIds = message.flags.swade.targets.map(t => t.uuid);
             }
 
