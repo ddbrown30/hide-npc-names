@@ -254,6 +254,22 @@ export class HideNPCNames {
      * @param {*} data
      */
     static async onRenderChatMessageHTML(message, html, data) {
+        const speaker = message.speaker;
+        if (!speaker) return;
+
+        const speakerName = data?.alias ?? speaker.alias;
+        const speakerActor = ChatMessage.getSpeakerActor(speaker);
+
+        // If we are the GM or the actor's owner, simply apply the icon to the name and return
+        if (game.user.isGM || speakerActor?.isOwner) {
+            const replacementInfo = HideNPCNames.getReplacementInfo(speakerActor, speakerName);
+            const senderName = html.querySelector("header").firstElementChild;
+            const icon = this.getHideIconHtml(replacementInfo);
+            icon.addEventListener("click", (event) => this.onClickChatMessageIcon(event));
+            senderName.insertBefore(icon, senderName.firstChild);
+            return;
+        }
+
         //System specific handling of actors on cards
         if (game.system.id === "swade") {
             let targetIds = [];
@@ -279,14 +295,9 @@ export class HideNPCNames {
             }
         }
 
-        const speaker = message.speaker;
-        const name = data?.alias ?? speaker?.alias;
-        if (!name || !speaker) return;
+        if (!speakerName || !speakerActor || speakerActor.hasPlayerOwner) return;
 
-        const actor = ChatMessage.getSpeakerActor(speaker);
-        if (!actor || actor.hasPlayerOwner) return;
-
-        HideNPCNames.updateChatMessage(html, actor, name);
+        HideNPCNames.updateChatMessage(html, speakerActor, speakerName);
     }
 
     /**
@@ -297,16 +308,6 @@ export class HideNPCNames {
      */
     static updateChatMessage(html, actor, name) {
         const replacementInfo = HideNPCNames.getReplacementInfo(actor, name);
-
-        // If we are the GM or the actor's owner, simply apply the icon to the name and return
-        if (game.user.isGM || actor.isOwner) {
-            const senderName = html.querySelector("header").firstElementChild;
-            const icon = this.getHideIconHtml(replacementInfo);
-            icon.addEventListener("click", (event) => this.onClickChatMessageIcon(event));
-            senderName.insertBefore(icon, senderName.firstChild);
-            return;
-        }
-
         const nameToUse = replacementInfo.shouldReplace ? replacementInfo.replacementName : replacementInfo.displayName;
 
         const hideParts = Utils.getSetting(SETTING_KEYS.hideParts);
