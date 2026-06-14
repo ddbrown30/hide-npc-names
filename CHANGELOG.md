@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.3.2
+
+* Fixed multiple icons appearing with targets
+* Targets no longer hide on GMs
+
 ## 1.3.1
 
 * Fixed an error when targets is undefined
