@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.1
+
+* Fixed an error when targets is undefined
+
 ## 1.3.0
 
 * Added system specific replacement of other actors within cards
