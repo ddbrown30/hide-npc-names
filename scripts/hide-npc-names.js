@@ -260,14 +260,18 @@ export class HideNPCNames {
         const speakerName = data?.alias ?? speaker.alias;
         const speakerActor = ChatMessage.getSpeakerActor(speaker);
 
-        // If we are the GM or the actor's owner, simply apply the icon to the name and return
+        // If we are the GM or the actor's owner, simply apply the icon to the name
         if (game.user.isGM || speakerActor?.isOwner) {
             const replacementInfo = HideNPCNames.getReplacementInfo(speakerActor, speakerName);
             const senderName = html.querySelector("header").firstElementChild;
             const icon = this.getHideIconHtml(replacementInfo);
             icon.addEventListener("click", (event) => this.onClickChatMessageIcon(event));
             senderName.insertBefore(icon, senderName.firstChild);
-            return;
+
+            if (game.user.isGM) {
+                //Non-GMs might still need to hide other actors within the card
+                return;
+            }
         }
 
         //System specific handling of actors on cards
