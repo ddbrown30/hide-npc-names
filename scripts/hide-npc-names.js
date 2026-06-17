@@ -262,11 +262,13 @@ export class HideNPCNames {
 
         // If we are the GM or the actor's owner, simply apply the icon to the name
         if (game.user.isGM || speakerActor?.isOwner) {
-            const replacementInfo = HideNPCNames.getReplacementInfo(speakerActor, speakerName);
-            const senderName = html.querySelector("header").firstElementChild;
-            const icon = this.getHideIconHtml(replacementInfo);
-            icon.addEventListener("click", (event) => this.onClickChatMessageIcon(event));
-            senderName.insertBefore(icon, senderName.firstChild);
+            if (!speakerActor.hasPlayerOwner) {
+                const replacementInfo = HideNPCNames.getReplacementInfo(speakerActor, speakerName);
+                const senderName = html.querySelector("header").firstElementChild;
+                const icon = this.getHideIconHtml(replacementInfo);
+                icon.addEventListener("click", (event) => this.onClickChatMessageIcon(event));
+                senderName.insertBefore(icon, senderName.firstChild);
+            }
 
             if (game.user.isGM) {
                 //Non-GMs might still need to hide other actors within the card
