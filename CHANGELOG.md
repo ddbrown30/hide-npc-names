@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.3
+
+* Fixed icon appearing on player actors
+
 ## 1.3.2
 
 * Fixed multiple icons appearing with targets
