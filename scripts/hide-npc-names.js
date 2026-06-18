@@ -262,7 +262,7 @@ export class HideNPCNames {
 
         // If we are the GM or the actor's owner, simply apply the icon to the name
         if (game.user.isGM || speakerActor?.isOwner) {
-            if (!speakerActor?.hasPlayerOwner) {
+            if (speakerActor && !speakerActor.hasPlayerOwner) {
                 const replacementInfo = HideNPCNames.getReplacementInfo(speakerActor, speakerName);
                 const senderName = html.querySelector("header").firstElementChild;
                 const icon = this.getHideIconHtml(replacementInfo);
