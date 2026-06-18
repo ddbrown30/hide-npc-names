@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.3.4
+
+* Fixed error when there is no speaker actor
+
 ## 1.3.3
 
 * Fixed icon appearing on player actors
