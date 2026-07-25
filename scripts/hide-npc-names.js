@@ -288,7 +288,7 @@ export class HideNPCNames {
             for (let targetId of targetIds) {
                 const targetActor = await Utils.getActorFromUuid(targetId);
                 if (targetActor && !targetActor.hasPlayerOwner) {
-                    HideNPCNames.updateChatMessage(html, targetActor, targetActor.name);
+                    HideNPCNames.updateChatMessage(message, html, targetActor, targetActor.name);
                 }
             }
         } else if (game.system.id === "CoC7") {
@@ -296,14 +296,14 @@ export class HideNPCNames {
             for (const actorElement of actorElements) {
                 const actor = await Utils.getActorFromUuid(actorElement.dataset.actorUuid);
                 if (actor && !actor.hasPlayerOwner) {
-                    HideNPCNames.updateChatMessage(html, actor, actor.name);
+                    HideNPCNames.updateChatMessage(message, html, actor, actor.name);
                 }
             }
         }
 
         if (!speakerName || !speakerActor || speakerActor.hasPlayerOwner) return;
 
-        HideNPCNames.updateChatMessage(html, speakerActor, speakerName);
+        HideNPCNames.updateChatMessage(message, html, speakerActor, speakerName);
     }
 
     /**
@@ -312,7 +312,7 @@ export class HideNPCNames {
      * @param {*} actor
      * @param {*} name
      */
-    static updateChatMessage(html, actor, name) {
+    static updateChatMessage(message, html, actor, name) {
         const replacementInfo = HideNPCNames.getReplacementInfo(actor, name);
         const nameToUse = replacementInfo.shouldReplace ? replacementInfo.replacementName : replacementInfo.displayName;
 
@@ -346,6 +346,8 @@ export class HideNPCNames {
 
         // Replace in data-tooltip attributes
         html.querySelectorAll("[data-tooltip]").forEach((el) => { el.dataset.tooltip = el.dataset.tooltip.replace(pattern, nameToUse); });
+
+        Hooks.callAll("hideNPCNamesChatMessageUpdated", message, html);
     }
 
     /**
