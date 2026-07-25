@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.4.0
+
+* Added a hook after updating the chat message
+
 ## 1.3.4
 
 * Fixed error when there is no speaker actor
