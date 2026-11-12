@@ -140,7 +140,7 @@ export class Utils {
      * @return {Actor} base actor
      */
     static getBaseActor(actor) {
-        return actor.isToken ? actor.token.baseActor : actor;
+        return (actor.isToken ? actor.token.baseActor : actor) ?? actor;
     }
 
     /**

@@ -397,7 +397,7 @@ export class HideNPCNames {
 
         let replacementInfo = HideNPCNames.getReplacementInfo(actor);
 
-        let baseActor = Utils.getBaseActor(actor);
+        const baseActor = Utils.getBaseActor(actor);
         await Utils.setModuleFlag(baseActor, FLAGS.nameHiddenOverride, !replacementInfo.shouldReplace);
 
         if (Utils.getSetting(SETTING_KEYS.showOnActorDirectory)) {
@@ -419,7 +419,7 @@ export class HideNPCNames {
         if (!actor) return false;
         if (actor.hasPlayerOwner) return false;
 
-        let baseActor = Utils.getBaseActor(actor);
+        const baseActor = Utils.getBaseActor(actor);
         const dispositionEnum = baseActor.prototypeToken.disposition;
         const disposition = Utils.getKeyByValue(CONST.TOKEN_DISPOSITIONS, dispositionEnum);
         const hideSetting = Utils.getSetting(SETTING_KEYS[`hide${disposition.titleCase()}`]);
@@ -435,7 +435,7 @@ export class HideNPCNames {
      * @returns {String} replacementName
      */
     static getReplacementName(actor) {
-        let baseActor = Utils.getBaseActor(actor);
+        const baseActor = Utils.getBaseActor(actor);
         const dispositionEnum = baseActor.prototypeToken.disposition;
         const disposition = Utils.getKeyByValue(CONST.TOKEN_DISPOSITIONS, dispositionEnum);
         const replacementSetting = Utils.getSetting(SETTING_KEYS[`${disposition.toLowerCase()}NameReplacement`]);
