@@ -1,5 +1,10 @@
 # Changelog
 
+## 1.4.2
+
+* Fixed an error when an unlinked token's actor is deleted
+* Updated the actor form to AppV2
+
 ## 1.4.1
 
 * Fixed double header option in dnd5e

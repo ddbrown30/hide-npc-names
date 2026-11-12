@@ -6,3 +6,21 @@
   flex: 0;
   padding-right: 0.5em;
 }
+
+.hide-name h2 {
+  font-size: 1.5em;
+  border-bottom: 1px solid #782e22;
+  margin-bottom: 0.5rem;
+}
+
+.hide-name .standard-form {
+  gap: 0.5rem;
+}
+
+.hide-name .standard-form .form-group {
+  gap: 0;
+}
+
+.hide-name .form-footer {
+  margin-top: 1rem;
+}

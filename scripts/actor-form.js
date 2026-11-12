@@ -1,32 +1,39 @@
 import * as MODULE_CONFIG from "./config.js";
 import { Utils } from "./utils.js";
 
-export class ActorForm extends FormApplication {
-    constructor(object, options={}) {
+const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
+
+export class ActorForm extends HandlebarsApplicationMixin(ApplicationV2) {
+    static DEFAULT_OPTIONS = {
+        id: "hide-names-actor",
+        tag: "form",
+        classes: ["hide-name"],
+        window: { title: "HNN.ActorForm.Title" },
+        position: { width: "700", height: "auto" },
+        form: {
+            handler: ActorForm.formHandler,
+            submitOnChange: false,
+            closeOnSubmit: true
+        },
+        actions: {
+            save: function () { this.submit(); this.close(); },
+            clear: async function () { await this.onClickClear(); },
+            cancel: function () { this.close(); }
+        },
+    };
+
+    constructor(object, options = {}) {
         super(object, options);
         this.baseActor = Utils.getBaseActor(object);
     }
 
-    /**
-     * Default Options for the form
-     */
-    static get defaultOptions() {
-        return foundry.utils.mergeObject(super.defaultOptions, {
-            id: "hide-names-actor",
-            title: game.i18n.localize("HNN.ActorForm.Title"),
+    static PARTS = {
+        form: {
             template: MODULE_CONFIG.DEFAULT_CONFIG.templates.actorForm,
-            classes: ["sheet"],
-            width: "auto",
-            height: "auto",
-            resizable: false,
-            closeOnSubmit: true
-        });
-    }
+        }
+    };
 
-    /**
-     * Get data for the form
-     */
-    getData() {
+    async _prepareContext(options) {
         const baseActor = this.baseActor;
         const dispositionEnum = baseActor?.prototypeToken?.disposition;
         const disposition = Utils.getKeyByValue(CONST.TOKEN_DISPOSITIONS, dispositionEnum);
@@ -44,39 +51,17 @@ export class ActorForm extends FormApplication {
             hideSettingString,
             dispositionString,
             replacementName
-        }
-    }
-
-    /**
-     * Attach listeners for events
-     * @param {*} html
-     */
-    activateListeners(html) {
-        const saveButton = html.find("button[name='save']");
-        const clearButton = html.find("button[name='clear']");
-        const cancelButton = html.find("button[name='cancel']");
-
-        saveButton.on("click", event => this.onClickSave(event));
-        clearButton.on("click", event => this.onClickClear(event));
-        cancelButton.on("click", event => this.close());
+        };
     }
 
     /**
      * Save button click handler
      * @param {*} event
      */
-    onClickSave(event) {
-        this.submit();
-    }
-
-    /**
-     * Save button click handler
-     * @param {*} event
-     */
-    async onClickClear(event) {
+    async onClickClear() {
         await this.baseActor.update({
-            [`flags.${MODULE_CONFIG.NAME}.-=${MODULE_CONFIG.FLAGS.nameHiddenOverride}`] : null,
-            [`flags.${MODULE_CONFIG.NAME}.-=${MODULE_CONFIG.FLAGS.replacementNameOverride}`] : null
+            [`flags.${MODULE_CONFIG.NAME}.${MODULE_CONFIG.FLAGS.nameHiddenOverride}`]: _del,
+            [`flags.${MODULE_CONFIG.NAME}.${MODULE_CONFIG.FLAGS.replacementNameOverride}`]: _del
         });
         this.close();
     }
@@ -85,13 +70,13 @@ export class ActorForm extends FormApplication {
      * Update the object on submit
      * @param {*} formData
      */
-    async _updateObject(event, formData) {
-        const hideName = formData[`hide-name`];
-        const replacementName = formData[`replacement-name`];
+    static async formHandler(event, form, formData) {
+        const hideName = formData.object[`hide-name`];
+        const replacementName = formData.object[`replacement-name`];
 
         await this.baseActor.update({
-            [`flags.${MODULE_CONFIG.NAME}.${MODULE_CONFIG.FLAGS.nameHiddenOverride}`] : hideName ?? false,
-            [`flags.${MODULE_CONFIG.NAME}.${MODULE_CONFIG.FLAGS.replacementNameOverride}`] : replacementName ?? null
+            [`flags.${MODULE_CONFIG.NAME}.${MODULE_CONFIG.FLAGS.nameHiddenOverride}`]: hideName ?? false,
+            [`flags.${MODULE_CONFIG.NAME}.${MODULE_CONFIG.FLAGS.replacementNameOverride}`]: replacementName ?? null
         });
     }
 }
